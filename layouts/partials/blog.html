@@ -1,32 +1,42 @@
 <div>
   {{ if .Params.tags }}
-  <h2 class="tags">
-    Tags: {{ range $i, $e := .Params.tags }}{{ if $i }}, {{ end }}<a href="{{ "/tags/" | relLangURL }}{{ $e | urlize }}">{{ $e }}</a>{{ end }}
-  </h2>
+    <h2 class="tags">
+      Tags:
+      {{ range $i, $e := .Params.tags }}
+        {{ if $i }}, {{ end }}
+        <a href="{{ "/tags/" | relLangURL }}{{ $e | urlize }}">{{ $e }}</a>
+      {{ end }}
+    </h2>
   {{ end }}
 
   {{ if .Date }}
-  <div>
-    Published on <time>{{ .Date.Format "Monday, January 2, 2006" }}</time>
-  </div>
+    <div>
+      Published on <time>{{ .Date.Format "Monday, January 2, 2006" }}</time>
+    </div>
   {{ end }}
 
-  {{ with .Site.GetPage "/blog" }}
-    {{ with .OutputFormats.Get "rss" }}
-        {{ printf `<a href="%s" aria-label="RSS">` .Permalink | safeHTML }}
-        <i class="fa-svg fa-rss-square fa-svg-lg" style="color:black"></i></a>
+  <div style="margin-top: 0.5rem;">
+    {{ with .Site.GetPage "/blog" }}
+      {{ with .OutputFormats.Get "rss" }}
+        <a href="{{ .Permalink }}" aria-label="RSS">
+          <i class="fas fa-rss fa-lg" style="color: black;"></i>
+        </a>
+      {{ end }}
     {{ end }}
 
     {{ with .Site.Params.twitterAccount }}
-      <a href="https://twitter.com/{{ . }}" aria-label="Twitter">
-      <i class="fa-svg fa-twitter-square fa-svg-lg" style="color:black"></i></a>
+      <a href="https://twitter.com/{{ . }}" aria-label="Twitter" style="margin-left: 10px;">
+        <i class="fab fa-twitter fa-lg" style="color: black;"></i>
+      </a>
     {{ end }}
-  {{end }}
+  </div>
 
-  {{ with .PrevInSection }}
-    &laquo; Previous post: <a href="{{ .Permalink }}">{{ .Title | markdownify | truncate 40 }}</a>
-  {{ end }}
-  {{ with .NextInSection }}
-    &mdash; Next post: <a href="{{ .Permalink }}">{{ .Title | markdownify | truncate 40 }}</a> &raquo;
-  {{ end }}
+  <div style="margin-top: 0.5rem;">
+    {{ with .PrevInSection }}
+      &laquo; Previous post: <a href="{{ .Permalink }}">{{ .Title | markdownify | truncate 40 }}</a>
+    {{ end }}
+    {{ with .NextInSection }}
+      &mdash; Next post: <a href="{{ .Permalink }}">{{ .Title | markdownify | truncate 40 }}</a> &raquo;
+    {{ end }}
+  </div>
 </div>

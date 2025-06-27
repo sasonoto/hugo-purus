@@ -1,0 +1,46 @@
+<div style="display: flex; flex-direction: row; align-items: flex-start; margin-bottom: 20px;">
+  <div style="width: auto; flex-shrink: 0;">
+    <figure class="portrait">
+      <picture>
+        {{ $imagePathWebp := .Get "image_webp" }}
+        {{ $imagePathJpg := .Get "image_jpg" }}
+        {{ $altText := .Get "alt" | default "A portrait of me" }}
+        {{ $width := .Get "width" | default "180" }}
+
+        {{ if $imagePathWebp }}
+        <source srcset="{{ $imagePathWebp }} {{ $width }}w" type="image/webp" sizes="100vw">
+        {{ end }}
+        {{ if $imagePathJpg }}
+        <source srcset="{{ $imagePathJpg }} {{ $width }}w" type="image/jpeg" sizes="100vw">
+        {{ end }}
+        <img src="{{ $imagePathJpg | default $imagePathWebp }}" alt="{{ $altText }}" width="{{ $width }}">
+      </picture>
+    </figure>
+  </div>
+
+  <div style="width: auto; align-self: stretch; align-items: center; display: flex; margin-left: 20px;">
+    <ul class="profiles" style="list-style: none; padding: 0;">
+
+    {{ range .Site.Params.social }}
+    {{ $key := .key }}
+    {{ $url := .url }}
+    <li>
+        <a href="{{ $url }}" aria-label="{{ $key | title }} profile">
+        {{ with .pre }}
+            {{ . | safeHTML }}
+        {{ end }}
+        </a>
+        <a href="{{ $url }}">
+        {{- $parts := split $url "/" -}}
+        {{- if in (slice "twitter" "github" "youtube" "facebook" "instagram" "linkedin" "orcid") $key -}}
+            {{ printf "%s @ %s" (index $parts (sub (len $parts) 1)) ($key | title) }}
+        {{ else }}
+            {{ $key | title }}
+        {{ end }}
+        </a>
+    </li>
+    {{ end }}
+
+    </ul>
+  </div>
+</div>

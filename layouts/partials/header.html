@@ -5,47 +5,44 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{{ .Title | markdownify | plainify }}</title>
+
   {{ with .Site.Params.description }}<meta name="description" content="{{ . }}">{{ end }}
   {{ with .Site.Params.author }}<meta name="author" content="{{ . }}">{{ end }}
-
-  {{ with .Description }}<meta name="description" content="{{ . }}">{{ end }}
-
-  {{ with .Site.Params.google_site_verification }}
-    <meta name="google-site-verification" content="{{ . }}">
-  {{ end }}
 
   {{ if .Site.Params.twitterMeta }}
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="{{ .Title | markdownify }}">
     <meta name="twitter:url" content="{{ .Permalink }}">
-
     {{ with .Params.Description }}<meta name="twitter:description" content="{{ . }}">{{ end }}
     {{ with .Params.Image }}<meta name="twitter:image" content="{{ . | absURL }}">{{ end }}
     {{ with .Params.ImageAlt }}<meta name="twitter:image:alt" content="{{ . }}">{{ end }}
     {{ with .Site.Params.twitterAccount }}<meta name="twitter:creator" content="@{{ . }}">{{ end }}
   {{ end }}
 
-  <link rel="preload" as="style" href="{{ relURL "css/style.css" }}">
-  <link rel="preload" as="style" href="{{ relURL "css/syntax.css" }}">
-  <link rel="preload" as="style" href="{{ relURL "css/fontawesome.min.css" }}">
-  <link rel="preload" as="style" href="{{ relURL "css/academicons.min.css" }}">
+  <!-- External Fonts and Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/academicons@1.9.2/css/academicons.min.css" />
 
-  <link rel="stylesheet" href="{{ relURL "css/style.css" }}">
-  <link rel="stylesheet" href="{{ relURL "css/syntax.css" }}">
-  <link rel="stylesheet" href="{{ relURL "css/fontawesome.min.css" }}">
-  <link rel="stylesheet" href="{{ relURL "css/academicons.min.css" }}">
+  <!-- Preload and Site CSS -->
+  <link rel="preload" as="style" href='{{ "css/style.css" | relURL }}'>
+  <link rel="preload" as="style" href='{{ "css/syntax.css" | relURL }}'>
+  <link rel="preload" as="style" href='{{ "css/academicons.min.css" | relURL }}'>
 
+  <link rel="stylesheet" href='{{ "css/style.css" | relURL }}'>
+  <link rel="stylesheet" href='{{ "css/syntax.css" | relURL }}'>
+  <link rel="stylesheet" href='{{ "css/academicons.min.css" | relURL }}'>
+
+  <!-- RSS Feed -->
   {{ if eq .Type "blog" }}
     {{ with .Site.GetPage "/blog" }}
-      {{ with .OutputFormats.Get "rss" -}}
-        {{ printf `<link rel="%s" type="%s" href="%s" title="%s" />` .Rel .MediaType.Type .Permalink $.Site.Title | safeHTML }}
-      {{ end -}}
+      {{ with .OutputFormats.Get "rss" }}
+        <link rel="{{ .Rel }}" type="{{ .MediaType.Type }}" href="{{ .Permalink }}" title="{{ $.Site.Title }}">
+      {{ end }}
     {{ end }}
   {{ end }}
 
   {{ hugo.Generator }}
-
-  {{ partial "mathjax_support.html" . }}
 </head>
+
 
 <body>
