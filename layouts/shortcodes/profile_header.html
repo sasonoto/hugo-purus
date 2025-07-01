@@ -24,11 +24,11 @@
     {{ range .Site.Params.social }}
     {{ $key := .key }}
     {{ $url := .url }}
-    <li>
-        <a href="{{ $url }}" aria-label="{{ $key | title }} profile">
-        {{ with .pre }}
+      <li>
+        <a href="{{ $url }}" aria-label="{{ $key | title }} profile" style="color: black; text-decoration: none;">
+          {{ with .pre }}
             {{ . | safeHTML }}
-        {{ end }}
+          {{ end }}
         </a>
         <a href="{{ $url }}">
         {{- $parts := split $url "/" -}}

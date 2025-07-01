@@ -13,6 +13,13 @@ a:visited
   color: #808080;
 }
 
+.profiles i {
+  font-size: 1.2em;  /* Adjust as needed: 1em, 1.5em, etc. */
+  width: 1.5em;       /* Ensures even spacing */
+  text-align: center; /* Centers the icon within its box */
+  display: inline-block;
+}
+
 @font-face {
   font-family: 'Equity OT';
   font-style: normal;
@@ -111,7 +118,7 @@ figure.centred figcaption
 
 h1, h2, h3, h4, h5
 {
-  font-weight: normal;
+  font-weight: bold;
   font-variant: small-caps;
   line-height: 1.2;
 }
